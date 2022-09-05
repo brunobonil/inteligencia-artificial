@@ -1,4 +1,3 @@
-from lib2to3.pytree import Node
 from random import randint
 from copy import deepcopy
 
@@ -9,15 +8,12 @@ class Nodo:
         self.hijos = []
         self.tabla = None
 
-    def agregar_hijos(self, nodo):
-        self.tabla.append(nodo)
 
-    
         
-# puzzle = [[1, 2, 3], 
-#           [4, 5, 6], 
-#           [7, 8, 'X']]
-puzzle = [['X', 2, 3], [1, 8, 5], [4, 7, 6]]
+puzzle = [[1, 2, 3], 
+         ['X', 5, 6], 
+         [4, 7, 8]]
+#puzzle = [['X', 2, 3], [1, 8, 5], [4, 7, 6]]
 
 def finder(board): # Devuelve lista con la posición de 'X' Ej: [2, 2]
     for i in board:
@@ -50,9 +46,8 @@ def possible_moves(board):
 
 def mix(board):
     for i in range(20):
-        poss_moves = possible_moves()[0] # Retorna lista con posibles mov y posición
-        fila = possible_moves()[1][0]
-        col = possible_moves()[1][1]
+        poss_moves = possible_moves(board) # Retorna lista con posibles mov y posición
+        fila, col = finder(board)
         ran_move = randint(0, len(poss_moves)-1)
         dir = poss_moves[ran_move]
         moves(board, dir, fila, col)
@@ -65,11 +60,31 @@ def solución_random(board):
     return counter
 
 def solución_anchura(board):     # puzzle = [['X', 2, 3], [1, 8, 5], [4, 7, 6]]
-    poss_moves = possible_moves()[0]
-    fila = possible_moves()[1]
-    col = possible_moves()[2]
-    padre = Nodo()
-    padre.tabla = board
+    nivel_act = [board]
+    lvl_counter = 0
+    while True:
+        nivel_prox = []
+        lvl_counter += 1
+        for x in nivel_act: # Cambiar lista de tableros por lista de nodos
+            pos_moves = possible_moves(x)
+            fila, col = finder(x)
+            padre = Nodo()
+            padre.tabla = x
+            for i in pos_moves:
+                n = Nodo()
+                n.tabla = deepcopy(x)
+                n.padre = padre
+                padre.hijos.append(n)
+                moves(n.tabla, i, fila, col)
+                if n.tabla == [[1, 2, 3], [4, 5, 6], [7, 8, 'X']]:
+                    return (f"La solución se encontró en el nivel {lvl_counter}")
+                #if n.tabla == 
+                nivel_prox.append(n.tabla)
+            nivel_act = nivel_prox
+        print(len(nivel_act))
+
+        
+
     
 
     
@@ -80,7 +95,7 @@ for i in puzzle:
 print('\n')
 
 
-solución_anchura(puzzle)
+print(solución_anchura(puzzle))
 
 #print(f"Número de movimientos: {solución_random()}")
 
