@@ -8,12 +8,7 @@ class Nodo:
         self.hijos = []
         self.tabla = None
 
-
-        
-puzzle = [[1, 2, 3], 
-         ['X', 5, 6], 
-         [4, 7, 8]]
-#puzzle = [['X', 2, 3], [1, 8, 5], [4, 7, 6]]
+puzzle = [['X', 2, 3], [1, 8, 5], [4, 7, 6]]
 
 def finder(board): # Devuelve lista con la posición de 'X' Ej: [2, 2]
     for i in board:
@@ -60,32 +55,31 @@ def solución_random(board):
     return counter
 
 def solución_anchura(board):     # puzzle = [['X', 2, 3], [1, 8, 5], [4, 7, 6]]
-    nivel_act = [board]
     lvl_counter = 0
+    nodo_raiz = Nodo()
+    nodo_raiz.tabla = board
+    nodo_raiz.padre = nodo_raiz
+    nivel_act = [nodo_raiz]
     while True:
         nivel_prox = []
         lvl_counter += 1
-        for x in nivel_act: # Cambiar lista de tableros por lista de nodos
-            pos_moves = possible_moves(x)
-            fila, col = finder(x)
-            padre = Nodo()
-            padre.tabla = x
+        for x in nivel_act: 
+            pos_moves = possible_moves(x.tabla)
+            fila, col = finder(x.tabla)
             for i in pos_moves:
                 n = Nodo()
-                n.tabla = deepcopy(x)
-                n.padre = padre
-                padre.hijos.append(n)
+                n.tabla = deepcopy(x.tabla)
+                n.padre = x
+                x.hijos.append(n)
                 moves(n.tabla, i, fila, col)
                 if n.tabla == [[1, 2, 3], [4, 5, 6], [7, 8, 'X']]:
                     return (f"La solución se encontró en el nivel {lvl_counter}")
-                #if n.tabla == 
-                nivel_prox.append(n.tabla)
+                if n.tabla == x.padre.tabla:
+                   continue
+                nivel_prox.append(n)
             nivel_act = nivel_prox
         print(len(nivel_act))
 
-        
-
-    
 
     
 
