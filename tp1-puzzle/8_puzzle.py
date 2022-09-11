@@ -8,7 +8,7 @@ class Nodo:
         self.hijos = []
         self.tabla = None
 
-puzzle = [['X', 2, 3], [1, 8, 5], [4, 7, 6]]
+puzzle_ordenado = [[1, 2, 3], [4, 5, 6], [7, 8, 'X']]
 
 def finder(board): # Devuelve lista con la posición de 'X' Ej: [2, 2]
     for i in board:
@@ -49,12 +49,12 @@ def mix(board):
 
 def solución_random(board):
     counter = 0
-    while puzzle != [[1,2, 3], [4, 5, 6], [7, 8, 'X']]:
+    while board != [[1,2, 3], [4, 5, 6], [7, 8, 'X']]:
         mix(board)
         counter += 1
-    return counter
+    print(counter)
 
-def solución_anchura(board):     # puzzle = [['X', 2, 3], [1, 8, 5], [4, 7, 6]]
+def solución_anchura(board):
     lvl_counter = 0
     nodo_raiz = Nodo()
     nodo_raiz.tabla = board
@@ -78,25 +78,11 @@ def solución_anchura(board):     # puzzle = [['X', 2, 3], [1, 8, 5], [4, 7, 6]]
                    continue
                 nivel_prox.append(n)
             nivel_act = nivel_prox
-        print(len(nivel_act))
-
-
     
+mix(puzzle_ordenado)
 
-#mix()
-for i in puzzle:
-    print(i)
-print('\n')
+puzzle_anchura = deepcopy(puzzle_ordenado)
 
+solución_random(puzzle_ordenado)
 
-print(solución_anchura(puzzle))
-
-#print(f"Número de movimientos: {solución_random()}")
-
-# for i in puzzle:
-#     print(i)
-# print('\n')
-
-
-
-
+print(solución_anchura(puzzle_anchura))
