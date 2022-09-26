@@ -1,5 +1,4 @@
 from math import exp
-from pickle import EXT4
 
 
 class Perceptron:
@@ -9,7 +8,7 @@ class Perceptron:
         self.w = w
     
     def run(self, e):   # entradas => e
-        e.copy()
+        e = e.copy()
         e.insert(0, self.e0)
         z = 0
         for i in range(len(self.w)):
@@ -25,8 +24,8 @@ if __name__ == '__main__':
     p0 = Perceptron([0.9, 0.7, 0.5])
     p1 = Perceptron([0.3, -0.9, -1])
 
-    e0 = p0.run(entradas1.copy())
-    e1 = p1.run(entradas1.copy())
+    e0 = p0.run(entradas1)
+    e1 = p1.run(entradas1)
 
     entradas2 = [e0, e1]
 
@@ -34,9 +33,15 @@ if __name__ == '__main__':
     p3 = Perceptron([-0.23, -0.79, 0.56])
     p4 = Perceptron([0.6, -0.6, 0.22])
 
-    e2 = p2.run(entradas2.copy()) 
-    e3 = p3.run(entradas2.copy())
-    e4 = p4.run(entradas2.copy())
+    e2 = p2.run(entradas2) 
+    e3 = p3.run(entradas2)
+    e4 = p4.run(entradas2)
+
+    entradas3 = [e2, e3, e4]
 
     p5 = Perceptron([-0.22, -0.55, 0.31, -0.32])
+
+    sr = p5.run(entradas3)
+
+    print(sr)
 
