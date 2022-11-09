@@ -8,7 +8,7 @@ class Perceptron:
         self.factor = 0.5
         self.w = w
         self.errores = []
-        self.hist_w = []
+        self.hist_w = [[] for i in range(len(w))]
 
     def run(self, entradas):   # entradas => e
         z = 0
@@ -22,12 +22,14 @@ class Perceptron:
         self.errores.append(error)
         delta = sr * (1-sr) * error
         for i, v in enumerate(self.w):
+            self.hist_w[i].append(self.w[i])
             self.w[i] += self.factor * entradas[i] * delta
         return delta
 
     def train_oculto(self, entradas, delta, sr):
         delta_oc = sr * (1-sr) * delta
         for i, v in enumerate(self.w):
+            self.hist_w[i].append(self.w[i])
             self.w[i] += self.factor * entradas[i] * delta_oc
 
 class MLP:
@@ -69,11 +71,13 @@ class MLP:
         plot.show()
                 
         # Grafico de pesos
-        for x in range(len(self.datos)):
-            err = []
-            for i in range(x, len(self.capa_salida.errores),4):
-                err.append(self.capa_salida.errores[i])
-            plot.plot(range(iteraciones), err, label=f"e{i}")
+        hist_pesos = self.capa_salida.hist_w
+        for i in self.capa_oculta:
+            hist_pesos += i.hist_w
+
+        for i in range(len(hist_pesos)):
+            plot.plot(range(iteraciones*4), hist_pesos[i], label=f"w{i}")
+        plot.legend()
         plot.show()
 
     def run(self):
@@ -87,52 +91,15 @@ class MLP:
 
 if __name__ == '__main__':
 
-    #n_neuronas = int(input("Ingrese el numero de neuronas: ")) + 1
+    n_neuronas = int(input("Ingrese el numero de neuronas: ")) + 1
 
     pesos = [[0.9, 0.7, 0.5], [0.3, -0.9, -1], [0.8, 0.35, 0.1], [-0.23, -0.79, 0.56, 0.6]]
 
     entradas = [[0, 0, 0], [1, 0, 1], [0, 1, 1], [1, 1, 0]]
 
-    mlp = MLP(4, pesos, entradas)
+    mlp = MLP(n_neuronas, pesos, entradas)
 
     mlp.train(10000)
 
     mlp.run()
-
-
-
-
-
-
-
-
-
-    # # Capa de entrada    
-    # p0 = Perceptron([0.9, 0.7, 0.5], entradas1)
-    # p1 = Perceptron([0.3, -0.9, -1], entradas1)
-    # p2 = Perceptron([0.8, 0.35, 0.1], entradas1)
-
-    # [[0.9, 0.7, 0.5], [0.3, -0.9, -1], [0.8, 0.35, 0.1], [-0.23, -0.79, 0.56, 0.6]]
-    # # Capa de salida    
-
-    # e0 = p0.run()
-    # e1 = p1.run()
-    # e2 = p2.run() 
-
-    # entradas2 = [e0, e1, e2]
-    
-    # p3 = Perceptron([-0.23, -0.79, 0.56, 0.6], entradas2)
-    
-    # print(entradas2)
-
-    # sr = p3.run()
-
-    # print(f"Salida de la red: {sr}")
-
-    # d = p3.train()
-    # print(d)
-    # p0.train_oculto(entradas1, d)
-    # p1.train_oculto(entradas1, d)
-    # p2.train_oculto(entradas1, d)
-
 
