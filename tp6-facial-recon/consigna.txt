@@ -1,0 +1,31 @@
+El TP. 6  que ya hemos comenzado a desarrollar, consiste en expandir nuestro código para tomar las imágenes 
+como "entradas" de nuestro perceptrón multicapa. Así, en lugar de tener sólo 2 entradas e1 y  e2, con valores 0 o 1 
+tenemos 80 x 96= 7680 entradas (e1 a e7680, con valores de 0 a 255). 
+Cada uno de estos valores de entrada será un pixel de la imagen. 
+Recomendación: investigar cómo puedo leer imágenes en Python (o el lenguaje que estén usando) 
+para obtener un valor de 0 a 255 por cada pixel).
+
+Su compañero Juan Ricci sugiere utilizar la librería descripta en:
+
+https://noemioocc.github.io/posts/Pixeles-openCV-Python/
+
+Se trata de "Píxeles en openCV python". Por lo que vimos ayer funciona perfectamente.
+
+Al ser una imagen con niveles de gris, los valores R, G y B devueltos son iguales para cada pixel. 
+Elijan uno de ellos para ingresar como "entrada".
+
+En cuanto a los valores de las "salidas deseadas", se toma "0" para la persona A y "1" para la persona B.
+
+La tabla de verdad se construye alternando una imagen perteneciente a A y otra perteneciente a B.
+Tomaremos 5 ejemplos de cada una, con los gestos de 1 a 5. 
+
+Recuerden que debemos codificar el gráfico de errores. Como son 10 filas de datos, deben aparecer 10 errores.
+
+Recomendación: en lugar de generar los pesos aleatorios iniciales con valores de -1 a 1 utilicen -0.01 a +0.01.
+
+La cantidad inicial de neuronas que utilizaremos para la capa oculta será de 100. Luego veremos cómo ajustarla.
+
+Aquí abajo verán una app que desarrollé en Java, para realizar neurodiagnósticos, que usa la misma lógica que estamos 
+empleando para el reconocimiento de rostros. Traten de desarrollar una interfaz similar, en la que se ven, a la izquierda 
+las imágenes de rostros empleadas (en mi caso son tomografías de cerebro), y ubiquen los gráficos de errores a la derecha. 
+Luego les explicaré el resto de la interface.
